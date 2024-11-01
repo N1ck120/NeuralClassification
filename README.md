@@ -24,7 +24,7 @@ O objetivo deste projeto é construir e treinar modelos de aprendizado de máqui
 
 ## 📈 Como Usar
 
-### Passo 1: Clone o Repositório
+### Clone o Repositório
 
 ```bash
 git clone https://github.com/jupraoai/neuralTrainingIris.git
