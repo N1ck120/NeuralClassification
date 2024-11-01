@@ -1,31 +1,38 @@
-from flask import Flask, render_template, request  # Importa as bibliotecas necessárias do Flask
-import numpy as np  # Importa NumPy para manipulação de arrays
-import tensorflow as tf  # Importa TensorFlow para trabalhar com o modelo
-from model import load_model, predict  # Importa funções para carregar o modelo e fazer previsões
+# app.py
 
-app = Flask(__name__)  # Cria uma instância do aplicativo Flask
+from flask import Flask, render_template, request, redirect, url_for
+from treinamento import preparar_dados, treinar_modelo, prever_especie
+import os
 
-# Carrega o modelo ao iniciar o aplicativo
-model = load_model('modelo_treinamento_iris.h5')
+app = Flask(__name__)
 
-@app.route('/')  # Define a rota para a página inicial
+# Configuração do diretório de upload
+UPLOAD_FOLDER = 'uploads'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')  # Renderiza o template HTML da página inicial
-
-@app.route('/predict', methods=['POST'])  # Define a rota para a predição, aceita apenas métodos POST
-def predict_view():
-    # Obtém os dados de entrada do formulário enviado pelo usuário
-    sepal_length = float(request.form['sepal_length'])  # Comprimento da sépala
-    sepal_width = float(request.form['sepal_width'])    # Largura da sépala
-    petal_length = float(request.form['petal_length'])  # Comprimento da pétala
-    petal_width = float(request.form['petal_width'])    # Largura da pétala
-
-    # Faz a predição usando os dados de entrada
-    input_data = np.array([[sepal_length, sepal_width, petal_length, petal_width]])  # Cria um array NumPy com os dados de entrada
-    prediction, accuracy = predict(model, input_data)  # Chama a função predict para obter a previsão e a acurácia
-    
-    # Renderiza a página inicial novamente, passando os resultados da predição
-    return render_template('index.html', prediction=prediction, accuracy=accuracy)
+    if request.method == 'POST':
+        if 'file' in request.files:
+            # Parte de treinamento
+            file = request.files['file']
+            if file.filename != '':
+                file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+                file.save(file_path)
+                X, y = preparar_dados(file_path)
+                accuracy = treinar_modelo(X, y)
+                return render_template('index.html', accuracy=accuracy)
+        else:
+            # Parte de predição
+            sepal_length = float(request.form['sepal_length'])
+            sepal_width = float(request.form['sepal_width'])
+            petal_length = float(request.form['petal_length'])
+            petal_width = float(request.form['petal_width'])
+            input_data = [sepal_length, sepal_width, petal_length, petal_width]
+            species = prever_especie(input_data)
+            return render_template('index.html', species=species)
+    return render_template('index.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)  # Executa o aplicativo Flask em modo de depuração
+    app.run(debug=True)

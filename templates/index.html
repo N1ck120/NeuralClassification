@@ -1,83 +1,67 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Predição de Espécies de Iris</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #e9f5e9; /* Verde claro */
-            font-family: 'Arial', sans-serif;
-        }
-        .container {
-            margin-top: 50px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        h1 {
-            color: #4CAF50; /* Verde */
-        }
-        button {
-            background-color: #4CAF50; /* Verde */
-            color: white;
-        }
-        button:hover {
-            background-color: #45a049; /* Verde escuro */
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            background-color: #f1f8e9; /* Verde muito claro */
-            border-radius: 5px;
-        }
-        .result h2 {
-            color: #333;
-        }
-    </style>
+    <title>Treinamento e Predição - Íris</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="text-center">Predição de Espécies de Iris</h1>
+    <div class="container mt-5">
+        <h1 class="text-center">Rede Neural - Classificação de Íris</h1>
+        
+        <!-- Formulário de Treinamento -->
+        <div class="mt-4">
+            <h2>Treinar o Modelo</h2>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="file">Selecione um arquivo CSV para treinamento:</label>
+                    <input type="file" name="file" id="file" class="form-control" accept=".csv" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Treinar Modelo</button>
+            </form>
+        </div>
 
-        <h2 class="mt-4">Insira os Dados</h2>
-        <form action="/predict" method="post">
-            <div class="form-group">
-                <label for="sepal_length">Comprimento da Sépala (cm):</label>
-                <input type="number" step="0.01" class="form-control" name="sepal_length" required>
+        <!-- Exibir o resultado do treinamento -->
+        {% if accuracy is not none %}
+            <div class="alert alert-success mt-4">
+                <strong>Acurácia do modelo:</strong> {{ accuracy }}%
             </div>
+        {% endif %}
 
-            <div class="form-group">
-                <label for="sepal_width">Largura da Sépala (cm):</label>
-                <input type="number" step="0.01" class="form-control" name="sepal_width" required>
-            </div>
+        <!-- Formulário de Previsão -->
+        <div class="mt-4">
+            <h2>Prever Espécie</h2>
+            <form action="/" method="post">
+                <div class="form-group">
+                    <label for="sepal_length">Comprimento da Sépala (cm):</label>
+                    <input type="number" step="0.01" name="sepal_length" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="sepal_width">Largura da Sépala (cm):</label>
+                    <input type="number" step="0.01" name="sepal_width" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="petal_length">Comprimento da Pétala (cm):</label>
+                    <input type="number" step="0.01" name="petal_length" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="petal_width">Largura da Pétala (cm):</label>
+                    <input type="number" step="0.01" name="petal_width" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Prever Espécie</button>
+            </form>
+        </div>
 
-            <div class="form-group">
-                <label for="petal_length">Comprimento da Pétala (cm):</label>
-                <input type="number" step="0.01" class="form-control" name="petal_length" required>
-            </div>
-
-            <div class="form-group">
-                <label for="petal_width">Largura da Pétala (cm):</label>
-                <input type="number" step="0.01" class="form-control" name="petal_width" required>
-            </div>
-
-            <button type="submit" class="btn btn-success btn-block">Predizer</button>
-        </form>
-
-        {% if prediction %}
-            <div class="result">
-                <h2>Resultado da Predição:</h2>
-                <p><strong>Espécie Prevista:</strong> {{ prediction }}</p>
-                <p><strong>Taxa de Acurácia do Modelo:</strong> {{ accuracy }}%</p>
+        <!-- Exibir o resultado da predição -->
+        {% if species is not none %}
+            <div class="alert alert-info mt-4">
+                <strong>Espécie Prevista:</strong> {{ species }}
             </div>
         {% endif %}
     </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
