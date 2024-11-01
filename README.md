@@ -22,7 +22,6 @@ O objetivo deste projeto é construir e treinar modelos de aprendizado de máqui
 - **Flask**: Para criação da interface web interativa.
 - **Seaborn & Matplotlib**: Para visualizações de dados.
 
-## 📈 Como Usar
 
 ### Clone o Repositório
 
