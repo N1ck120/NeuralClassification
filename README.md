@@ -1,7 +1,8 @@
-# Neural Training Iris 🌸
+# Neural Classification
 
-Bem-vindo ao repositório **Neural Training Iris**! Este projeto utiliza redes neurais para classificar diferentes espécies de flores do gênero Iris com base em suas características morfológicas. O conjunto de dados utilizado é o famoso **Iris Dataset**, que contém informações sobre comprimento e largura de sépalas e pétalas.
+Bem-vindo ao repositório **Neural Classification**! Este projeto utiliza redes neurais para classificar frutas com base em suas características de tamanho e peso. 
 
+<!--
 ## 📊 Visão Geral
 
 O objetivo deste projeto é construir e treinar modelos de aprendizado de máquina, especificamente redes neurais, para prever a espécie de uma flor Iris com base nas medidas fornecidas.
@@ -28,3 +29,4 @@ O objetivo deste projeto é construir e treinar modelos de aprendizado de máqui
 ```bash
 git clone https://github.com/jupraoai/neuralTrainingIris.git
 cd neuralTrainingIris
+-->
