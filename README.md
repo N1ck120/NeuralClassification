@@ -2,31 +2,27 @@
 
 Bem-vindo ao repositório **Neural Classification**! Este projeto utiliza redes neurais para classificar frutas com base em suas características de tamanho e peso. 
 
-<!--
-## 📊 Visão Geral
+## 🛠️ Uso
 
-O objetivo deste projeto é construir e treinar modelos de aprendizado de máquina, especificamente redes neurais, para prever a espécie de uma flor Iris com base nas medidas fornecidas.
+Primeiramente certifique-se de ter as seguintes dependencias instaladas no sistema
 
-### Características do Projeto:
-- **Treinamento de Modelo**: Treinamento de uma rede neural usando o TensorFlow e scikit-learn.
-- **Interatividade**: Permite que usuários insiram medidas da flor e recebam previsões sobre a espécie.
-- **Visualização de Dados**: Gráficos e visualizações para melhor compreensão dos dados.
-- **Acurácia do Modelo**: Avaliação da performance do modelo com métricas de acurácia.
+- **Python**
+- **Pandas**
+- **NumPy**
+- **Flask**
+- **Scikit-learn**
+- **joblib**
 
-## 🛠️ Tecnologias Utilizadas
-
-- **Python**: Linguagem de programação utilizada.
-- **Pandas**: Para manipulação e análise de dados.
-- **NumPy**: Para operações matemáticas e manipulação de arrays.
-- **Scikit-learn**: Para modelos de machine learning.
-- **TensorFlow**: Para construção e treinamento de redes neurais.
-- **Flask**: Para criação da interface web interativa.
-- **Seaborn & Matplotlib**: Para visualizações de dados.
-
-
-### Clone o Repositório
+### Clone o Repositório e entre na pasta do projeto
 
 ```bash
-git clone https://github.com/jupraoai/neuralTrainingIris.git
-cd neuralTrainingIris
--->
+git clone https://github.com/N1ck120/NeuralClassification.git
+cd NeuralClassification
+```
+
+### Agora execute a aplicação
+
+```bash
+flask run                                      
+```
+Pronto! Agora basta entrar em: http://127.0.0.1:5000 para acessar a aplicação pelo seu navegador
