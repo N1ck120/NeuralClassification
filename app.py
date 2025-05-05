@@ -1,38 +1,25 @@
-# app.py
-
 from flask import Flask, render_template, request, redirect, url_for
-from treinamento import preparar_dados, treinar_modelo, prever_especie
-import os
+import joblib
+import numpy as np
 
 app = Flask(__name__)
 
-# Configuração do diretório de upload
-UPLOAD_FOLDER = 'uploads'
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
+scaler = joblib.load("models/scaler.pkl")
+model = joblib.load("models/model.pkl")
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        if 'file' in request.files:
-            # Parte de treinamento
-            file = request.files['file']
-            if file.filename != '':
-                file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(file_path)
-                X, y = preparar_dados(file_path)
-                accuracy = treinar_modelo(X, y)
-                return render_template('index.html', accuracy=accuracy)
-        else:
-            # Parte de predição
-            sepal_length = float(request.form['sepal_length'])
-            sepal_width = float(request.form['sepal_width'])
-            petal_length = float(request.form['petal_length'])
-            petal_width = float(request.form['petal_width'])
-            input_data = [sepal_length, sepal_width, petal_length, petal_width]
-            species = prever_especie(input_data)
-            return render_template('index.html', species=species)
-    return render_template('index.html')
-
+    # Parte de predição
+    predicted_fruit = None
+    if request.method == "POST":
+        fruit_weight = float(request.form['fruit_weight'])
+        fruit_size = float(request.form['fruit_size'])
+        entry = np.array([[fruit_weight, fruit_size]])
+        standard_entry = scaler.transform(entry)
+        pred = model.predict(standard_entry)
+        predicted = "Maçã" if pred[0] == 0 else "Laranja"
+        return render_template('index.html', predicted_fruit = predicted)
+    else :
+        return render_template('index.html', predicted_fruit = "Nada")
 if __name__ == '__main__':
     app.run(debug=True)
